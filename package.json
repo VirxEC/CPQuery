@@ -1,0 +1,27 @@
+{
+  "name": "@virxec/cpquery",
+  "version": "1.3.0",
+  "description": "CPQuery is a lightweight version of jQuery",
+  "main": "CPQuery.mjs",
+  "scripts": {
+    "cpquery": "node -e 'require(\"./CPQuery.mjs\")'"
+  },
+  "keywords": [
+    "javascript",
+    "library",
+    "query"
+  ],
+  "author": "Eric (VirxEC/Virx)",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VirxEC/CPQuery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VirxEC/CPQuery/issues"
+  },
+  "homepage": "https://www.virxcase.ga/CP-S/"
+}

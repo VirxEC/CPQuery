@@ -5,6 +5,8 @@
  * See the License for the specific language governing permissions and limitations under the License
  */
 function cpQuery(query, num = false) {
+    if (typeof document == "undefined") throw new Error("CPQuery requires a document to work");
+
     let element, local = false,
         session = false;
     (async ()=>{
@@ -19,7 +21,10 @@ function cpQuery(query, num = false) {
                 else if (query[0] == '^') query = query.substr(1);
                 else if (num == false) element = document.querySelector(query);
                 else if (num == true) element = document.querySelectorAll(query);
-                else element = element = document.querySelectorAll(query)[num];
+                else if (Array.isArray(num)) {
+                    element = document.querySelector(query);
+                    num.forEach(val=>element = element[val]);
+                } else element = document.querySelectorAll(query)[num];
             }
         } else if (!query) element = document;
         else element = query;
@@ -30,11 +35,6 @@ function cpQuery(query, num = false) {
     }
     function func(f) {
         return element[f];
-    }
-    function tagfunc(f) {
-        let a = [...arguments];
-        a.shift();
-        return element[f](...a);
     }
     const create = class {
         constructor(type, tags) {
@@ -117,9 +117,8 @@ function cpQuery(query, num = false) {
     function htm(item, add) {
         return !item ? element.innerHTML : add ? element.innerHTML += item : element.innerHTML = item;
     }
-    function tag(tag, extra) {
-        if (typeof extra == "string") extra = [extra];
-        if (extra) extra.forEach(item=>tag == "#" ? element.id = item : tag == "." ? element.class = item : element[tag] = item);
+    function tag(tag, value) {
+        if (value) tag == "#" ? element.id = value : tag == "." ? element.class = value : element[tag] = value;
         else return tag == "#" ? element.id : tag == "." ? element.class : element[tag];
     }
     function tagcss(tag, extra) {
@@ -196,7 +195,7 @@ function cpQuery(query, num = false) {
         dblclick: f => listen("dblclick", f),
         mouseup: f => listen("mouseup", f),
         onload: f => listen("load", f),
-        remove: () => tagfunc("remove"),
+        remove: () => tag("remove")(),
         click: f => listen("click", f),
         hover: f => listen("hover", f),
         focus: f => listen("focus", f),
@@ -208,7 +207,7 @@ function cpQuery(query, num = false) {
         on: listen,
         html: htm,
         text: txt,
-        tagfunc,
+        f: func,
         listen,
         tagcss,
         func,

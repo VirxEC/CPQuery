@@ -4,7 +4,7 @@
   "description": "CPQuery is a lightweight version of jQuery",
   "main": "CPQuery.mjs",
   "scripts": {
-    "cpquery": "node -e 'require(\"./CPQuery.mjs\")'"
+    "cpquery": "node -e 'require(\"./CPQuery.mjs\").$()'"
   },
   "keywords": [
     "javascript",
